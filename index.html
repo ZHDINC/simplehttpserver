@@ -23,7 +23,7 @@
             fetch("/messages").then((res) => {
                 return res.text();
             }).then((data) => {
-                paragraph.innerText += `${data}`;
+                paragraph.innerText = `${data}`;
             })
 
         }
@@ -36,9 +36,10 @@
                 body: jsonBody
             }).then((data) => {
                 httpResult.innerText = data.statusText;
+                messageGetter();
             })
         }
-        //setInterval(messageGetter, 1000);
+        setInterval(messageGetter, 2000);
     </script>
 </body>
 </html>
