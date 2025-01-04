@@ -7,8 +7,18 @@
 </head>
 <body>
     <p id="Messages"></p>
+    <label for="Name">Name: </label>
+    <input type="text" id="Name"/>
+    <textarea id="messageText"></textarea>
+    <button id="submitButton" onclick="submitText()">Submit</button>
+    <button id="getMessages" onclick="messageGetter()">Get Messages</button>
+    <p id="httpResult"></p>
     <script>
         const paragraph = document.getElementById("Messages");
+        const submitButton = document.getElementById("submitButton");
+        const messageText = document.getElementById("messageText");
+        const name = document.getElementById("Name");
+        const httpResult = document.getElementById("httpResult");
         function messageGetter() {
             fetch("/messages").then((res) => {
                 return res.text();
@@ -17,7 +27,18 @@
             })
 
         }
-        setInterval(messageGetter, 1000);
+        function submitText() {
+            const myString = name.value + " - " + messageText.value;
+            const jsonBody = JSON.stringify({SimpleString: myString});
+            console.log(jsonBody)
+            fetch("/postMessage", {
+                method: "POST",
+                body: jsonBody
+            }).then((data) => {
+                httpResult.innerText = data.statusText;
+            })
+        }
+        //setInterval(messageGetter, 1000);
     </script>
 </body>
 </html>
